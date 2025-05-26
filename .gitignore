@@ -1,7 +1,8 @@
 node_modules/
 wwebjs_auth/
+logs/
+*.log
 *.pdf
 *.exe
 *.dll
-*.log
-logs/
+.DS_Store
