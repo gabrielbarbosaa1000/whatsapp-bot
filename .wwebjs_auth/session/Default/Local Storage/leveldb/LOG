@@ -1,2 +1,3 @@
-2025/05/22-17:12:44.595 3e1c Creating DB C:\Users\Mercado Marceneiro\Desktop\CHATBOT\AUTOMAÇÃO\.wwebjs_auth\session\Default\Local Storage\leveldb since it was missing.
-2025/05/22-17:12:44.620 3e1c Reusing MANIFEST C:\Users\Mercado Marceneiro\Desktop\CHATBOT\AUTOMAÇÃO\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2025/05/29-16:35:00.783 14f8 Reusing MANIFEST C:\Users\Mercado Marceneiro\Desktop\CHATBOT\AUTOMAÇÃO\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2025/05/29-16:35:00.784 14f8 Recovering log #3
+2025/05/29-16:35:00.784 14f8 Reusing old log C:\Users\Mercado Marceneiro\Desktop\CHATBOT\AUTOMAÇÃO\.wwebjs_auth\session\Default\Local Storage\leveldb/000003.log 

@@ -1,8 +1,0 @@
-node_modules/
-wwebjs_auth/
-logs/
-*.log
-*.pdf
-*.exe
-*.dll
-.DS_Store
