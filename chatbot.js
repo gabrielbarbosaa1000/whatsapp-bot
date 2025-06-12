@@ -1,9 +1,17 @@
 const fs = require('fs');
 const path = require('path');
-const qrcode = require('qrcode-terminal');
-const { Client, MessageMedia } = require('whatsapp-web.js');
+const { Client, MessageMedia, LocalAuth } = require('whatsapp-web.js');
+const qrcode = require('qrcode');
+const express = require('express');
+const app = express();
 
-const client = new Client();
+const client = new Client({
+    authStrategy: new LocalAuth(),
+    puppeteer: {
+        args: ['--no-sandbox', '--disable-setuid-sandbox']
+    }
+});
+
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const userPdfChoices = {};
@@ -11,15 +19,35 @@ const ultimasInteracoes = {};
 const iniciadasPeloCliente = {};
 const inatividadeNotificada = {};
 
-const TEMPO_AVISO = 5 * 60 * 1000; // 5 minutos
-const TEMPO_ENCERRAMENTO = 10 * 60 * 1000; // 10 minutos
+const TEMPO_AVISO = 5 * 60 * 1000;
+const TEMPO_ENCERRAMENTO = 10 * 60 * 1000;
 
-client.on('qr', qr => {
-    qrcode.generate(qr, { small: true });
+client.on('qr', async qr => {
+    console.log('⚠️ QR Code gerado. Criando imagem...');
+    const qrPath = path.join(__dirname, 'qr.png');
+    await qrcode.toFile(qrPath, qr);
+    console.log('✅ QR Code salvo como imagem: qr.png');
+
+    app.get('/', (req, res) => {
+        res.send(`
+            <h2>Escaneie o QR Code abaixo com seu WhatsApp:</h2>
+            <img src="/qr" width="300" />
+        `);
+    });
+
+    app.get('/qr', (req, res) => {
+        const imgPath = path.join(__dirname, 'qr.png');
+        res.sendFile(imgPath);
+    });
+
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+        console.log(`🌐 Acesse http://localhost:${port} para ver o QR Code`);
+    });
 });
 
 client.on('ready', () => {
-    console.log('Tudo certo! WhatsApp conectado.');
+    console.log('✅ Tudo certo! WhatsApp conectado.');
 });
 
 client.initialize();
@@ -68,7 +96,6 @@ client.on('message', async (msg) => {
     const nomeFormatado = nome.split(" ")[0];
     const pdfDir = path.join(__dirname, 'arquivos', 'PDFs');
 
-    // 🔒 Bloqueio de chamadas
     if (msg.type !== 'chat') return;
 
     if (!msg.fromMe) {
@@ -125,7 +152,6 @@ client.on('message', async (msg) => {
             const logData = `"${msg.from}","${nome}","TODOS","${new Date().toLocaleString()}"\n`;
             fs.appendFile(logPath, logData, (err) => {
                 if (err) console.error('Erro ao salvar log:', err);
-                else console.log(`📥 Log salvo: ${nome} solicitou TODOS os catálogos`);
             });
 
             delete userPdfChoices[msg.from];
@@ -151,7 +177,6 @@ client.on('message', async (msg) => {
 
             fs.appendFile(logPath, logData, (err) => {
                 if (err) console.error('Erro ao salvar log:', err);
-                else console.log(`📥 Log salvo: ${nome} solicitou ${selectedFile}`);
             });
 
             delete userPdfChoices[msg.from];
