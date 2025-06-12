@@ -1,8 +1,3 @@
-#!/bin/bash
-apt-get update
-apt-get install -y wget gnupg ca-certificates
-wget -qO - https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /usr/share/keyrings/google-linux-signing-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/google-linux-signing-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list
-apt-get update
-apt-get install -y google-chrome-stable
-node chatbot.js
+#!/usr/bin/env bash
+# Inicia o bot no Render com puppeteer headless compatível
+PUPPETEER_EXECUTABLE_PATH=$(which chromium-browser) node chatbot.js
