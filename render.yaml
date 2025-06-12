@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: whatsapp-bot
+    env: node
+    buildCommand: "npm install"
+    startCommand: "bash start.sh"
+    plan: free
+    branch: main
+    repo: https://github.com/gabrielbarbosaa1000/whatsapp-bot
+    autoDeploy: true
