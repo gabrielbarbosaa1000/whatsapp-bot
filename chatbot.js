@@ -8,10 +8,19 @@ const app = express();
 app.use('/qr.png', express.static(path.join(__dirname, 'qr.png')));
 
 const client = new Client({
-    authStrategy: new LocalAuth(),
     puppeteer: {
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        headless: true,
+        args: [
+            '--no-sandbox',
+            '--disable-setuid-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-accelerated-2d-canvas',
+            '--no-zygote',
+            '--single-process',
+            '--disable-gpu',
+        ],
     },
+    authStrategy: new LocalAuth()
 });
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
@@ -83,6 +92,7 @@ Escolha uma das opções abaixo:
 }
 
 client.on('message', async (msg) => {
+    console.log('📩 Mensagem recebida:', msg.body);
     const chat = await msg.getChat();
     const comando = msg.body.trim().toLowerCase();
     const contact = await msg.getContact();
