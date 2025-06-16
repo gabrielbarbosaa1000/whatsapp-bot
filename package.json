@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "name": "whatsapp-bot",
   "version": "1.0.0",
@@ -13,3 +14,20 @@
     "whatsapp-web.js": "^1.22.1"
   }
 }
+=======
+{
+  "name": "whatsapp-bot",
+  "version": "1.0.0",
+  "main": "chatbot.js",
+  "scripts": {
+    "start": "node chatbot.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "fs-extra": "^11.2.0",
+    "puppeteer": "^21.3.8",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.22.1"
+  }
+}
+>>>>>>> f77d9b5004adce72478020849540d316ef3e55a0
