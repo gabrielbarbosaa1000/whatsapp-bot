@@ -7,7 +7,6 @@ const chromium = require('chrome-aws-lambda');
 const { Client, MessageMedia } = require('whatsapp-web.js');
 
 const isRender = process.env.RENDER;
-const chromium = require('chrome-aws-lambda');
 
 const client = new Client({
     authStrategy: new LocalAuth(),
