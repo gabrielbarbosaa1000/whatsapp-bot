@@ -6,14 +6,18 @@ const express = require('express');
 const chromium = require('chrome-aws-lambda');
 const { Client, MessageMedia } = require('whatsapp-web.js');
 
+const isRender = process.env.RENDER;
+const chromium = require('chrome-aws-lambda');
+
 const client = new Client({
-  puppeteer: {
-    args: chromium.args,
-    defaultViewport: chromium.defaultViewport,
-    executablePath: async () => await chromium.executablePath,
-    headless: chromium.headless,
-  }
+    authStrategy: new LocalAuth(),
+    puppeteer: {
+        args: chromium.args,
+        executablePath: isRender ? await chromium.executablePath : undefined,
+        headless: true
+    }
 });
+
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
