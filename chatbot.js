@@ -2,12 +2,16 @@ const fs = require('fs');
 const path = require('path');
 const qrcodeTerminal = require('qrcode-terminal');
 const qrcodeImg = require('qrcode');
-const { Client, MessageMedia } = require('whatsapp-web.js');
 const express = require('express');
+const chromium = require('chrome-aws-lambda');
+const { Client, MessageMedia } = require('whatsapp-web.js');
 
 const client = new Client({
   puppeteer: {
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
+    executablePath: async () => await chromium.executablePath,
+    headless: chromium.headless,
   }
 });
 
